@@ -39,7 +39,7 @@ public class AuthExceptionAdvice {
         throws IOException {
         Map<String, Object> properties = new LinkedHashMap<>();
         properties.put("message", ex.code().message());
-        properties.put("redirect","http://localhost:8081/login");
+        properties.put("redirect","/login");
         return render("/error/redirect", properties);
     }
     
