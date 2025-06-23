@@ -8,7 +8,8 @@ import com.grepp.spring.app.model.book.repository.BookRepository;
 import com.grepp.spring.infra.error.exceptions.CommonException;
 import com.grepp.spring.infra.response.ResponseCode;
 import com.grepp.spring.infra.util.file.FileDto;
-import com.grepp.spring.infra.util.file.FileUtil;
+import com.grepp.spring.infra.util.file.FileManager;
+import com.grepp.spring.infra.util.file.GoogleStorageManager;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +28,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final FileUtil fileUtil;
+    private final GoogleStorageManager fileManager;
     private final ModelMapper mapper;
     
     @Transactional
     public void registBook(List<MultipartFile> thumbnail, BookDto dto) {
         try {
-            List<FileDto> fileDtos = fileUtil.upload(thumbnail, "book");
+            List<FileDto> fileDtos = fileManager.upload(thumbnail, "book");
             Book book = mapper.map(dto, Book.class);
             
             if(fileDtos.isEmpty()) return;
