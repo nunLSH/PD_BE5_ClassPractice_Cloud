@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 public enum ResponseCode {
     OK("0000", HttpStatus.OK, "정상적으로 완료되었습니다."),
     BAD_REQUEST("4000", HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
+    INVALID_FILENAME("4001", HttpStatus.BAD_REQUEST, "사용할 수 없는 파일 이름입니다."),
     UNAUTHORIZED("4030", HttpStatus.UNAUTHORIZED, "권한이 없습니다."),
     BAD_CREDENTIAL("4031", HttpStatus.OK, "아이디나 비밀번호가 틀렸습니다."),
     NOT_EXIST_PRE_AUTH_CREDENTIAL("4032", HttpStatus.OK, "사전 인증 정보가 요청에서 발견되지 않았습니다."),

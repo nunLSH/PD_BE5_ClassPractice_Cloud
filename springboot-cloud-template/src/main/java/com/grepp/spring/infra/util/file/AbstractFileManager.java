@@ -20,7 +20,7 @@ public abstract class AbstractFileManager {
         for (MultipartFile file : files) {
             String originFileName = file.getOriginalFilename();
             String renameFileName = generateRenameFileName(originFileName);
-            FileDto fileDto = new FileDto(originFileName, renameFileName, savePath);
+            FileDto fileDto = new FileDto(originFileName, renameFileName, depth, savePath);
             fileDtos.add(fileDto);
             uploadFile(file, fileDto);
         }
