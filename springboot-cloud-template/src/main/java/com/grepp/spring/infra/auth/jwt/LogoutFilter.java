@@ -20,25 +20,25 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @RequiredArgsConstructor
 public class LogoutFilter extends OncePerRequestFilter {
-    
+
     private final RefreshTokenService refreshTokenService;
     private final JwtTokenProvider jwtTokenProvider;
-    
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
-        
+
         String accessToken = jwtTokenProvider.resolveToken(request, AuthToken.ACCESS_TOKEN);
-        
+
         if(accessToken == null){
             filterChain.doFilter(request,response);
             return;
         }
-        
+
         String path = request.getRequestURI();
         Claims claims  = jwtTokenProvider.getClaims(accessToken);
-        
-        if(path.equals("/logout")){
+
+        if(path.equals("/auth/logout")){
             refreshTokenService.deleteByAccessTokenId(claims.getId());
             SecurityContextHolder.clearContext();
             ResponseCookie expiredAccessToken = TokenCookieFactory.createExpiredToken(AuthToken.ACCESS_TOKEN.name());
@@ -47,9 +47,9 @@ public class LogoutFilter extends OncePerRequestFilter {
             response.addHeader("Set-Cookie", expiredAccessToken.toString());
             response.addHeader("Set-Cookie", expiredRefreshToken.toString());
             response.addHeader("Set-Cookie", expiredSessionId.toString());
-            response.sendRedirect("/member/signin");
+            response.sendRedirect("/");
         }
-        
+
         filterChain.doFilter(request,response);
     }
 }
